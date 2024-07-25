@@ -1,0 +1,93 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+using namespace std;
+class node{
+  public:
+  int data;
+  node*next;
+  node(int val){
+      data=val;
+      next=NULL;
+  }
+  
+};
+
+class stack{
+  public:
+  node*head;
+  int curr;
+  int capacity;
+  stack(int c){
+      curr=00;
+      capacity=c;
+      head=NULL;
+  }
+  bool isempty(){
+     return head==NULL;
+  }
+  bool isfull(){
+      return curr==capacity;
+  }
+  int pop(int val){
+      if(head==NULL){
+          cout<<"underflow";
+          
+      }
+      node* newnode=head->next;
+      head->next=NULL;
+      node*todelete=head;
+      int result=todelete->data;
+      delete todelete;
+      head=newnode;
+      return result;
+      
+  }
+  int gettop(){
+      if(head==NULL){
+         
+          return -1;
+      }
+      return head->data;
+  }
+  void display(node* &head){
+      node*temp=head;
+      while(temp!=NULL){
+          cout<<temp->data<<" ";
+           temp=temp->next;
+      }
+     
+        }
+  int size(){
+      return curr;
+  }
+  void push(int val){
+      if(curr==capacity){
+          cout<<"full";
+          return;
+      }
+      node *n=new node(val);
+      n->next=head;
+      head=n;
+      curr++;
+  }
+};
+int main()
+{
+    stack i(12);
+
+    i.push(12);
+    i.push(144);
+    i.push(44);
+    i.pop(12);
+    
+    i.display(i.head);
+
+    return 0;
+}

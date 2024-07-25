@@ -1,0 +1,268 @@
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next; // next pointer shall store the address of the next node
+
+    node(int val) {
+        data = val;
+        next = NULL; // pointer to the next node
+    }
+};
+
+// In linked list we pass head pointer of main by reference.
+// Every time we perform an operation like insertion at head, tail, removal, modification, we need to update head.
+void inserttail(node*& head, int val) {
+    node* n = new node(val); // a pointer that stores address of value inserted
+    if (head == NULL) { // if head is null, meaning that the list was empty then head is updated to store n which contains address of val
+        head = n;
+        return;
+    }
+    node* temp = head; // a temp pointer that stores head, prevents modifications in head and allows list traversal
+    while (temp->next != NULL) { // a loop in which list is traversed
+        temp = temp->next; // we assign current node's next to temp. This moves temp to the next node
+    }
+    temp->next = n; // once loop is exited, we assign the new node to the next pointer of the last node
+}
+
+void display(node* head) { // here head is passed by value so it is not modified
+    node* temp = head; // a temp pointer that stores head value
+    while (temp != NULL) { // while temp does not reach NULL
+        cout << temp->data << " "; // print data value of each node
+        temp = temp->next; // with each iteration, update temp to store value of next pointer
+    }
+    cout << endl;
+}
+
+int countlist(node* head) {
+    int count = 0; // initialize count to 0
+    node* temp = head;
+    while (temp != NULL) {
+        count++; // same as display just count the number of iterations
+        temp = temp->next;
+    }
+    return count;
+}
+
+void deletehead(node*& head) {
+    if (head == NULL) 
+    {return;} // if head is null, there is nothing to delete
+    node* todelete = head;
+    head = head->next;
+    delete todelete;
+}
+
+// To reverse a linked list, we simply reverse the direction of pointers.
+void reverse(node** head) { // we need a double pointer. This is the pointer to the head node.
+    node* prev = NULL; // a pointer that will point to the previous node
+    node* next = NULL; // a pointer that will point to the next node
+    node* current = *head; // a current pointer that stores the next pointer in the list
+    while (current != NULL) { // as long as current does not approach null, that is the end of the list
+        next = current->next; // we will make next store value of current->next
+        current->next = prev; // current->next pointer will store prev pointer value
+        prev = current; // previous will become current
+        current = next; // current will become next
+    }
+    *head = prev; // as the loop exits, head will be modified to prev which was originally the tail node
+}
+
+void inserthead(node*& head, int val) {
+    node* n = new node(val); // a node that stores the address of val
+    n->next = head; // the node pointing to next will store value of head
+    head = n; // auto update head to store value of n
+}
+
+bool search(node* head, int key) {
+    node* temp = head; // we are using a temp pointer to store head
+    while (temp != NULL) { // as long as temp is not null
+        if (temp->data == key) { // match the data value of each node with key integer
+            return true; // if found then return true
+        }
+        temp = temp->next; // with each iteration update temp to store the address of the next pointer
+    }
+    return false; // if key not found return false
+}
+
+void refer_r(node* &r,int target,node*&head){//Refer an head node to a target value
+    node*temp=head;
+    node* refer=r;
+    while(temp!=NULL){
+        if(temp->data==target){
+            refer=temp;
+            break;
+        }
+        temp=temp->next;
+    }
+    
+        while (refer != NULL) { // while temp does not reach NULL
+        cout << refer->data << " "; // print data value of each node
+        refer = refer->next; // with each iteration, update temp to store value of next pointer
+    }
+    cout << endl;
+}
+
+void refer(node* &head,int target){//refer head to a specific node
+    node* temp=head;
+
+    while(temp!=NULL){
+        if(temp->data==target){
+         head=temp;
+         break;
+        }
+        temp=temp->next;
+    }
+}
+
+void addd(node* head){
+    int sum=0;
+    node* temp=head;
+    while(temp!=NULL){
+        sum+=temp->data;
+        temp=temp->next;
+    }
+    cout<<sum;
+}
+void deletenode(node*& head, int val) { // we use a double pointer to modify the head if needed
+    if (head == NULL) return; // if head is null, there is nothing to delete
+    if (head->data == val) { // if the head node is to be deleted
+        deletehead(head);
+        return;
+    }
+    node* temp = head;
+    while (temp->next != NULL && temp->next->data != val) {
+        temp = temp->next;
+    }
+    if (temp->next == NULL) return; // if the node is not found
+    node* todelete = temp->next;
+    temp->next = temp->next->next;
+    delete todelete;
+}
+
+void sortascending(node* &head){//bubble sort
+node*temp=head;
+  while(temp!=NULL)
+ {
+    node*first=temp->next;
+    node*second=temp;
+    while(first!=NULL)
+    {
+        if(first->data<second->data)
+        {
+            int swap=temp->data;
+            temp->data=first->data;
+            first->data=swap;
+        }
+        first=first->next;
+    }
+    temp=temp->next;
+ }
+}
+
+
+void sortdescending(node* &head){//bubble sort
+node*temp=head;
+  while(temp!=NULL)
+ {
+    node*first=temp->next;
+    node*second=temp;
+    while(first!=NULL)
+    {
+        if(first->data>second->data)
+        {
+            int swap=temp->data;
+            temp->data=first->data;
+            first->data=swap;
+        }
+        first=first->next;
+    }
+    temp=temp->next;
+ }
+}
+
+
+node* merge(node* head1,node*head2){//merge two sorted arrays
+    node*p1=head1;
+    node*p2=head2;
+    node*dummy=new node(-1);
+    node*p3=dummy;
+    
+    while(p1!=NULL&&p2!=NULL){
+        if(p1->data<p2->data){
+            p3->next=p1;
+            p1=p1->next;
+            
+        }
+        else{
+            p3->next=p2;
+            p2=p2->next;
+        }
+        p3=p3->next;
+        
+    }
+    while(p1!=NULL){
+        p3->next=p1;
+        p1=p1->next;
+        p3=p3->next;
+    }
+    while(p2!=NULL){ 
+        p3->next=p2;
+        p2=p2->next;
+        p3=p3->next;
+    }
+    return dummy->next;
+    
+}
+
+int k_smallest(node*head,int k){
+    sortdescending(head);
+    display(head);
+    node* temp=head;
+    int count=0;
+    while(temp!=NULL)
+    {
+        count++;
+       temp=temp->next;
+    }
+        temp=head;
+        for(int i=0;i<count-k;i++){
+            temp=temp->next;
+        }
+        return temp->data;
+    
+}
+
+
+int k_largest(node*head,int k){//we sort in ascending order and print the number
+    sortascending(head);
+    display(head);
+    node* temp=head;
+    int count=0;
+    while(temp!=NULL)
+    {
+        count++;
+       temp=temp->next;
+    }
+        temp=head;
+        for(int i=0;i<count-k;i++){
+            temp=temp->next;
+        }
+        return temp->data;
+    
+}
+
+int main() {
+    node* head1 = NULL;
+    node* head2=NULL;
+    int arr[]={1,4,45,7,13};
+    int arr2[]={332,3,6};
+    for(int i=0;i<5;i++){
+        inserttail(head1,arr[i]);
+    }
+int k=k_largest(head1,2);
+cout<<"k_largest "<<k<<endl;
+int s=k_smallest(head1,2);
+cout<<"s_smallest "<<s;
+    return 0;
+}
