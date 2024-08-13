@@ -27,7 +27,7 @@ class stack{
   stack(int c){
       curr=00;
       capacity=c;
-      head=NULL;
+       head=NULL;
   }
   bool isempty(){
      return head==NULL;
