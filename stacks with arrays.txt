@@ -1,11 +1,3 @@
-/******************************************************************************
-
-                              Online C++ Compiler.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <iostream>
 #include<cstdlib>
 #include<ctime>
@@ -40,6 +32,7 @@ class stack{
       top--;
       return data;
   }
+  
   void print(){
       if(top==-1){
    cout<<"stack is empty";
@@ -69,6 +62,73 @@ class stack{
           cout<<s[i]<<" ";
       }
   }
+  int average(int size){
+      int avg=0;
+      for(int i=0;i<size;i++){
+          avg+=s[i];
+      }
+      return avg;
+  }
+  
+  void sortstack(int size){
+      for(int i=0;i<size;i++)
+      {
+          int temp=s[i];
+          int j=i-1;
+          while(j>=0&&s[j]>temp)
+          {
+            s[j+1]=s[j];
+            j--;
+          }
+          s[j+1]=temp;
+      }
+  }
+  int maximum(int size){
+      int max=s[0];
+      for(int i=0;i<size;i++){
+          if(s[i]>max){
+              max=s[i];
+          }
+      }
+      return max;
+  }
+  int remove_max(int size){
+      int max=maximum(size);
+      sortstack(size);
+      int popp=pop();
+      return popp;
+      
+  }
+  
+    int minimum(int size){
+      int min=s[0];
+      for(int i=0;i<size;i++){
+          if(s[i]<min){
+              min=s[i];
+          }
+      }
+      return min;
+  }
+  
+  int binarysearch(int size,int target){
+      int low=s[0];
+      int high=s[size-1];
+      while(low<=high){
+          int mid=(high-low)/2;
+          if(s[mid]==target){
+              return target;
+          }
+          if(s[mid]<target){
+              low=mid+1;
+              
+          }
+          else{
+              high=mid-1;
+          }
+         
+      }
+       return -1;
+  }
 };
 int main()
 {
@@ -78,7 +138,7 @@ int main()
  
    int arr[size];
    for(int i=0;i<size;i++){
-       int a=rand()%9;
+       int a=rand()%19;
        arr[i]=a;
    }
 
@@ -86,7 +146,9 @@ for(int i=0;i<size;i++){
     s.push(arr[i]);
 }
 s.print();
+cout<<endl<<s.remove_max(size);
 cout<<endl;
-s.reverse(size);
+s.print();
+
  return 0;
 }
